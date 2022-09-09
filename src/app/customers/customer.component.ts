@@ -8,18 +8,11 @@ import { Customer } from 'src/app/model/Customer';
   styleUrls: ['./customer.component.css'],
 })
 export class CustomerComponent implements OnInit {
-  customerForm!: FormGroup;
   customer: Customer = new Customer();
   
   constructor() { }
 
   ngOnInit(): void {
-    this.customerForm = new FormGroup({
-      firstName: new FormControl(),
-      lastName: new FormControl(),
-      email: new FormControl(),
-      sendCategory: new FormControl(true), //with default value true
-    });
   }
 
   save(customerForm: NgForm): void {
