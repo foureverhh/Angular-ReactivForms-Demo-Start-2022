@@ -52,7 +52,7 @@
       </span>
     </div>
   </div>
-<!--
+
   <div class="form-group row mb-2">
     <label class="col-md-2 col-form-label"
           for="emailId">Email</label>
@@ -63,15 +63,13 @@
             placeholder="Email (required)"
             required
             email
-            [(ngModel)]="customer.email"
-            name="email"
-            #emailVar="ngModel"
-            [ngClass]="{'is-invalid': (emailVar.touched || emailVar.dirty) && !emailVar.valid }" />
+            formControlName="email"
+            [ngClass]="{'is-invalid': (customerForm.get('email')?.touched || customerForm.get('email')?.dirty) && !customerForm.get('email')?.valid }" />
       <span class="invalid-feedback">
-        <span *ngIf="emailVar.errors?.['required']">
+        <span *ngIf="customerForm.get('email')?.errors?.['required']">
           Please enter your email address.
         </span>
-        <span *ngIf="emailVar.errors?.['email']">
+        <span *ngIf="customerForm.get('email')?.errors?.['email']">
           Please enter a valid email address.
         </span>
       </span>
@@ -85,13 +83,13 @@
           <input class="form-check-input"
                 id="sendCatalogId"
                 type="checkbox"
-                [(ngModel)]="customer.sendCatalog"
-                name="sendCatalog"> Send me your catalog
+                formControlName="sendCategory"
+                > Send me your catalog
         </label>
       </div>
     </div>
   </div>
-
+<!--
   <div *ngIf="customer.sendCatalog">
     <div class="form-group row mb-2">
       <label class="col-md-2 col-form-label pt-0">Address Type</label>
@@ -204,6 +202,16 @@
               [title]="customerForm.valid ? 'Save your entered data' : 'Disabled until the form data is valid'"
               [disabled]="!customerForm.valid">
         Save
+      </button>
+      <button class="btn btn-outline-secondary"
+              type="button"
+              (click)="populateTestDataSetValue()">
+        Test Data setValue
+      </button>
+      <button class="btn btn-outline-secondary"
+        type="button"
+        (click)="populateTestDataPatchValue()">
+        Test Data patchValue
       </button>
     </div>
   </div>
