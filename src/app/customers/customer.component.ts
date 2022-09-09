@@ -14,7 +14,12 @@ export class CustomerComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.customerForm = new FormGroup({});
+    this.customerForm = new FormGroup({
+      firstName: new FormControl(),
+      lastName: new FormControl(),
+      email: new FormControl(),
+      sendCategory: new FormControl(true), //with default value true
+    });
   }
 
   save(customerForm: NgForm): void {
