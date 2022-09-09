@@ -3,7 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { CustomerComponent } from './customers/customer/customer.component';
+import { CustomerComponent } from './customers/customer.component';
+import { Customer } from './model/Customer';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,6 @@ import { CustomerComponent } from './customers/customer/customer.component';
     BrowserModule,
     FormsModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

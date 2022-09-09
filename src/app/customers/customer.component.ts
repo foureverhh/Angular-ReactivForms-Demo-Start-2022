@@ -5,13 +5,12 @@ import { Customer } from 'src/app/model/Customer';
 @Component({
   selector: 'app-customer',
   templateUrl: './customer.component.html',
-  styleUrls: ['./customer.component.css']
+  styleUrls: ['./customer.component.css'],
 })
 export class CustomerComponent implements OnInit {
-
-  constructor(
-    public customer: Customer
-  ) { }
+  customer: Customer = new Customer();
+  
+  constructor() { }
 
   ngOnInit(): void {
   }
