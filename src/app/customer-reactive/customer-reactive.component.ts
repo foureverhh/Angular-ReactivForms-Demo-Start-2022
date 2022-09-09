@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, NgForm } from '@angular/forms';
+import { FormGroup, FormBuilder  } from '@angular/forms';
 import { Customer } from '../model/Customer';
 
 @Component({
@@ -12,18 +12,27 @@ export class CustomerReactiveComponent implements OnInit {
 customerForm: FormGroup;
 customer: Customer = new Customer(); //model for backend
   
-constructor() {
+constructor(private formBuilder: FormBuilder) {
   this.customerForm = new FormGroup({});
 }
 ngOnInit(): void {
+  //define customerForm in the formBuilder way
+  this.customerForm = this.formBuilder.group({
+    firstName: '',
+    lastName:'',// can pass object as well {value:'n/a', disabled: true},
+    email:'',
+    sendCategory:true
+  })
 
-  //sync state and value with ngForm
+  //define customerForm in wordy way
+  /*
   this.customerForm = new FormGroup({
     firstName: new FormControl(),
     lastName: new FormControl(),
     email: new FormControl(),
     sendCategory: new FormControl(true), //with default value true
   });
+  */
 }
 
 populateTestDataSetValue() {
