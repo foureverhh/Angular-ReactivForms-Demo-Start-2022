@@ -16,15 +16,13 @@
             class="form-control"
             id="firstNameId"
             placeholder="First Name(required)"
-            required
-            minlength="3"
             formControlName="firstName"
             [ngClass]="{'is-invalid' : (customerForm.get('firstName')?.touched || customerForm.get('firstName')?.dirty) && !customerForm.get('firstName')?.valid}"/>
       <span class="invalid-feedback">
         <span *ngIf="customerForm.get('firstName')?.errors?.['required']" >
           Please enter your first name.
         </span>
-        <span *ngIf="customerForm.get('firstName')?.errors?.['minlenghth']">
+        <span *ngIf="customerForm.get('firstName')?.errors?.['minlength']">
           The first name must longer than 3 charactors.
         </span>
       </span>
@@ -38,8 +36,6 @@
             class="form-control"
             id="lastNameId"
             placeholder="Last name (required)"
-            required
-            maxlength="50"
             formControlName="lastName"
             [ngClass]="{'is-invalid': (customerForm.get('lastName')?.touched || customerForm.get('lastName')?.dirty) && !customerForm.get('lastName')?.valid }" />
       <span class="invalid-feedback">

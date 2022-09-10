@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder  } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators  } from '@angular/forms';
 import { Customer } from '../model/Customer';
 
 @Component({
@@ -18,9 +18,9 @@ constructor(private formBuilder: FormBuilder) {
 ngOnInit(): void {
   //define customerForm in the formBuilder way
   this.customerForm = this.formBuilder.group({
-    firstName: '',
-    lastName:'',// can pass object as well {value:'n/a', disabled: true},
-    email:'',
+    firstName: ['',[Validators.required, Validators.minLength(3)]],
+    lastName:['', [Validators.required, Validators.maxLength(50)]],// can pass object as well {value:'n/a', disabled: true},
+    email: ['', [Validators.required, Validators.email]],
     sendCategory:true
   })
 
