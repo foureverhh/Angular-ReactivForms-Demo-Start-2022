@@ -33,6 +33,26 @@ function ratingRange(min: number, max:number): ValidatorFn {
   }
 }
 
+//Cross-field validation: custom Validator
+function dataCompare(c: AbstractControl): { [key: string]: boolean} | null {
+  let startControl = c.get('start');
+  let endControll = c.get('end');
+  if(startControl?.value !== endControll?.value) {
+    return {'match': true};
+  }
+  return null;
+}
+
+function emailMatcher(c: AbstractControl): { [key: string]: boolean } | null {
+  const emailControl = c.get('email');
+  const confirmEmailControl = c.get('confirmEmail');
+  if(emailControl?.pristine || confirmEmailControl?.pristine)
+    return null;
+  if(emailControl?.value === confirmEmailControl?.value) {
+    return null;
+  }
+  return {'match': true};
+}
 @Component({
   selector: 'app-customer-reactive',
   templateUrl: './customer-reactive.component.html',
@@ -51,7 +71,11 @@ ngOnInit(): void {
   this.customerForm = this.formBuilder.group({
     firstName: ['',[Validators.required, Validators.minLength(3)]],
     lastName:  ['', [Validators.required, Validators.maxLength(50)]],// can pass object as well {value:'n/a', disabled: true},
-    email:     ['', [Validators.required, Validators.email]],
+    emailGroup: this.formBuilder.group({
+      email:     ['', [Validators.required, Validators.email]],
+      confirmEmail: ['', Validators.required],
+    } 
+    ,{validator: emailMatcher}), // call the validator for emailMatcher
     phone: '',
     notification: 'email',
     //rating: [null, ratingRange],
