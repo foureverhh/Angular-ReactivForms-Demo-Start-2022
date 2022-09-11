@@ -1,6 +1,37 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators  } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn  } from '@angular/forms';
 import { Customer } from '../model/Customer';
+
+// reuseable customized validator
+// AbstractControll the bas class for 
+/*
+function ratingRange(c: AbstractControl): {[key: string]: boolean} | null{
+  if(c.value !== null && (isNaN(c.value) || c.value < 1 || c.value > 5)) {
+    return { 'range': true };
+  }
+  return null;
+}
+*/
+// Factory function
+/*
+function myValidator(param: any): ValidatorFn {
+  return (c:AbstractControl): {[key: string]: boolean} | null => {
+    if(somethingIsWrong) {
+      return {'myValidator': true}
+    }
+    return null;
+  }
+}
+*/
+
+function ratingRange(min: number, max:number): ValidatorFn {
+  return (c:AbstractControl): {[key: string]: boolean} | null => {
+    if(c.value !== null && (isNaN(c.value) || c.value < min || c.value > max)) {
+      return {'range': true}
+    }
+    return null;
+  }
+}
 
 @Component({
   selector: 'app-customer-reactive',
@@ -23,6 +54,8 @@ ngOnInit(): void {
     email:     ['', [Validators.required, Validators.email]],
     phone: '',
     notification: 'email',
+    //rating: [null, ratingRange],
+    rating: [null, ratingRange(1,5)],
     sendCategory:true
   })
 
@@ -61,6 +94,7 @@ save(): void {
   console.log('Saved: ' + JSON.stringify(this.customerForm.value));
 }
 
+// dynamic change validation on one formControl
 setNotification(notifyVia: String): void {
   const phoneControl = this.customerForm.get('phone');
   if(notifyVia === 'text') {
