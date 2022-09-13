@@ -93,7 +93,7 @@ ngOnInit(): void {
   */
 
   this.customerForm.get('notification')?.valueChanges.subscribe(value => {
-      console.log(value);
+    this.setNotification(value);
   })
 }
 
