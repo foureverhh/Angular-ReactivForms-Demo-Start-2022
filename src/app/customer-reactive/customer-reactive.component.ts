@@ -32,7 +32,7 @@ function ratingRange(min: number, max:number): ValidatorFn {
     return null;
   }
 }
-
+/*
 //Cross-field validation: custom Validator
 function dataCompare(c: AbstractControl): { [key: string]: boolean} | null {
   let startControl = c.get('start');
@@ -42,7 +42,7 @@ function dataCompare(c: AbstractControl): { [key: string]: boolean} | null {
   }
   return null;
 }
-
+*/
 function emailMatcher(c: AbstractControl): { [key: string]: boolean } | null {
   const emailControl = c.get('email');
   const confirmEmailControl = c.get('confirmEmail');
@@ -74,14 +74,13 @@ ngOnInit(): void {
     emailGroup: this.formBuilder.group({
       email:     ['', [Validators.required, Validators.email]],
       confirmEmail: ['', Validators.required],
-    } 
-    ,{validator: emailMatcher}), // call the validator for emailMatcher
+    } ,{validator: emailMatcher}), // call the validator for emailMatcher
     phone: '',
     notification: 'email',
     //rating: [null, ratingRange],
     rating: [null, ratingRange(1,5)],
-    sendCategory:true
-  })
+    sendCatalog:'true',
+  });
 
   //define customerForm in wordy way
   /*
@@ -89,9 +88,13 @@ ngOnInit(): void {
     firstName: new FormControl(),
     lastName: new FormControl(),
     email: new FormControl(),
-    sendCategory: new FormControl(true), //with default value true
+    sendCatalog: new FormControl(true), //with default value true
   });
   */
+
+  this.customerForm.get('notification')?.valueChanges.subscribe(value => {
+      console.log(value);
+  })
 }
 
 populateTestDataSetValue() {
@@ -100,7 +103,7 @@ populateTestDataSetValue() {
     firstName:'Jack',
     lastName:'Harkness',
     email:'jack@torchwood.com',
-    sendCategory: false
+    sendCatalog: false
   })
 }
 
@@ -109,7 +112,7 @@ populateTestDataPatchValue() {
   this.customerForm.patchValue({
     firstName:'Jack',
     lastName:'Harkness',
-    sendCategory: false
+    sendCatalog: false
   })
 }
 
