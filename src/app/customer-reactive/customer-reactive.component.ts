@@ -53,6 +53,7 @@ function emailMatcher(c: AbstractControl): { [key: string]: boolean } | null {
   }
   return {'match': true};
 }
+
 @Component({
   selector: 'app-customer-reactive',
   templateUrl: './customer-reactive.component.html',
@@ -62,7 +63,12 @@ export class CustomerReactiveComponent implements OnInit {
 
 customerForm: FormGroup;
 customer: Customer = new Customer(); //model for backend
-  
+emailMessage: string = '';
+
+private validationMessages = {
+  required : 'Please enter your email address.',
+  email: 'Please enter a valid email address.'
+};
 constructor(private formBuilder: FormBuilder) {
   this.customerForm = new FormGroup({});
 }
@@ -95,8 +101,24 @@ ngOnInit(): void {
   this.customerForm.get('notification')?.valueChanges.subscribe(value => {
     this.setNotification(value);
   })
+
+  const emailControl = this.customerForm.get('emailGroup.email');
+  emailControl?.valueChanges.subscribe(value => this.setMessage(emailControl));
 }
 
+setMessage(c: AbstractControl): void {
+  this.emailMessage = '';
+  if ((c.touched || c.touched) && c.errors) {
+    console.log('c.errors',c.errors)
+    
+    this.emailMessage = Object.keys(c.errors)
+      .map( 
+        key => this.validationMessages[key as keyof typeof this.validationMessages]
+      )
+      .join(' '); 
+  
+  }
+}
 populateTestDataSetValue() {
   //setValue to set value for all properties
   this.customerForm.setValue({
