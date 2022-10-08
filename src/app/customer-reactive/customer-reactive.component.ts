@@ -63,7 +63,7 @@ export class CustomerReactiveComponent implements OnInit {
 
 customerForm: FormGroup;
 customer: Customer = new Customer(); //model for backend
-emailMessage: string = '';
+emailMessage: any;
 
 private validationMessages = {
   required : 'Please enter your email address.',
@@ -108,16 +108,18 @@ ngOnInit(): void {
 
 setMessage(c: AbstractControl): void {
   this.emailMessage = '';
-  if ((c.touched || c.touched) && c.errors) {
-    console.log('c.errors',c.errors)
-    
+  if ((c.touched || c.dirty) && c.errors) {
+    console.log('keys', Object.keys(c.errors))
     this.emailMessage = Object.keys(c.errors)
       .map( 
-        key => this.validationMessages[key as keyof typeof this.validationMessages]
+        key => {
+          console.log('key', key)
+          return this.validationMessages[key as keyof typeof this.validationMessages];
+        }
       )
       .join(' '); 
-  
   }
+  console.log('emailMessage', this.emailMessage)
 }
 populateTestDataSetValue() {
   //setValue to set value for all properties
