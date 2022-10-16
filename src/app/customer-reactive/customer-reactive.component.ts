@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn  } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn, FormArray } from '@angular/forms';
 import { debounceTime } from 'rxjs';
 import { Customer } from '../model/Customer';
 
@@ -87,7 +87,8 @@ ngOnInit(): void {
     //rating: [null, ratingRange],
     rating: [null, ratingRange(1,5)],
     sendCatalog:true,
-    adresses: this.buildAdress()
+    // adresses: this.buildAdress()
+    addresses: this.formBuilder.array([this.buildAddress()])
   });
 
   //define customerForm in wordy way
@@ -108,16 +109,24 @@ ngOnInit(): void {
   emailControl?.valueChanges.pipe(debounceTime(1000)).subscribe(value => this.setMessage(emailControl));
 }
 
-buildAdress(): FormGroup {
+buildAddress(): FormGroup {
   return this.formBuilder.group({
     addressType:'home',
-    street1: 'Kavallerigatan 1',
-    street2: 'Kavallerigatan 2',
-    city: 'Upplands Väsby',
-    state: 'Stockholm',
-    zip: '19475'
+    street1: '',
+    street2: '',
+    city: '',
+    state: '',
+    zip: ''
   });
 } 
+
+get addresses(): FormArray {
+  return <FormArray> this.customerForm.get('addresses');
+}
+
+addAddress(): void {
+  this.addresses.push(this.buildAddress());
+}
 
 setMessage(c: AbstractControl): void {
   this.emailMessage = '';
