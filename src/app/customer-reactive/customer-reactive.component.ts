@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn  } from '@angular/forms';
+import { debounceTime } from 'rxjs';
 import { Customer } from '../model/Customer';
 
 // reuseable customized validator
@@ -85,7 +86,8 @@ ngOnInit(): void {
     notification: 'email',
     //rating: [null, ratingRange],
     rating: [null, ratingRange(1,5)],
-    sendCatalog:'true',
+    sendCatalog:true,
+    adresses: this.buildAdress()
   });
 
   //define customerForm in wordy way
@@ -103,8 +105,19 @@ ngOnInit(): void {
   })
 
   const emailControl = this.customerForm.get('emailGroup.email');
-  emailControl?.valueChanges.subscribe(value => this.setMessage(emailControl));
+  emailControl?.valueChanges.pipe(debounceTime(1000)).subscribe(value => this.setMessage(emailControl));
 }
+
+buildAdress(): FormGroup {
+  return this.formBuilder.group({
+    addressType:'home',
+    street1: 'Kavallerigatan 1',
+    street2: 'Kavallerigatan 2',
+    city: 'Upplands Väsby',
+    state: 'Stockholm',
+    zip: '19475'
+  });
+} 
 
 setMessage(c: AbstractControl): void {
   this.emailMessage = '';
